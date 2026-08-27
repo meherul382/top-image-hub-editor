@@ -1,41 +1,790 @@
-<!doctype html>
-<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Top Image Hub</title>
-<style>
-:root{--bg:#071018;--card:#0d1721;--line:#243646;--text:#eef5fb;--muted:#9aaaba;--p:#7c5cff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}header{padding:16px 5%;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;background:#09131c;position:sticky;top:0;z-index:5}.brand{font-weight:900;margin-right:auto}button{padding:10px 14px;border-radius:9px;border:1px solid var(--line);background:#13212e;color:white;cursor:pointer}.primary{background:var(--p);border-color:var(--p)}.page{padding:30px 5%;max-width:1250px;margin:auto}.hidden{display:none!important}.hero{text-align:center;margin:20px auto 30px;max-width:720px}.hero h1{font-size:42px;margin:0}.muted{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer}.card:hover{border-color:#765cff}.card img,.ph{width:100%;height:180px;object-fit:cover;display:block}.ph{display:grid;place-items:center;background:#172536;font-size:45px}.pad{padding:14px}.card h3{margin:0 0 7px}.card small{color:var(--muted)}.detailImg{width:100%;max-height:520px;object-fit:contain;background:#111;border-radius:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.action{text-decoration:none;padding:12px 16px;border-radius:9px;font-weight:bold}.fb{background:#1877f2;color:white}.dl{background:#f1f5f9;color:#111}.edit{background:var(--p);color:white}.about{max-width:800px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px}.link{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:15px;margin:10px 0;background:#101c27;border:1px solid var(--line);border-radius:12px}.link a{color:#b9aaff}.empty{text-align:center;color:var(--muted);padding:60px}@media(max-width:600px){.hero h1{font-size:31px}.link{flex-direction:column;align-items:flex-start}}
-</style></head><body>
-<header><div class="brand">◉ TOP IMAGE HUB</div><button onclick="show('home')">Home</button><button onclick="show('editor')">Editor</button><button onclick="show('about')">About</button></header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOP IMAGE HUB</title>
 
-<section id="home" class="page"><div class="hero"><h1>Top Image Library</h1><p class="muted">Admin-এর upload করা Group/Page, ছবি ও link এখানে সবাই দেখতে পারবে। কোনো Login লাগবে না।</p></div><div id="status" class="muted"></div><div id="gallery" class="grid"></div></section>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<section id="detail" class="page hidden"><button onclick="show('home')">← Back</button><br><br><img id="dimg" class="detailImg"><div class="pad"><h1 id="dname"></h1><p id="dtext" class="muted"></p><div class="actions"><a id="dlink" class="action fb" target="_blank" rel="noopener">↗ Open Group / Page</a><button id="download" class="action dl">⇩ Download Image</button><a href="#editor" onclick="show('editor')" class="action edit">✦ Open Editor</a></div></div></section>
+    :root {
+      --bg: #08131d;
+      --card: #101f2d;
+      --card2: #13283a;
+      --border: #24394b;
+      --text: #f5f7fa;
+      --muted: #a8b5c2;
+      --primary: #4da3ff;
+      --danger: #ff5d5d;
+      --success: #31c48d;
+    }
 
-<section id="editor" class="page hidden"><div class="hero"><h1>Photo Editor</h1><p class="muted">Editor section এখানে রাখা হয়েছে। তোমার V3 editor code এই section-এ বসিয়ে একই public site-এ ব্যবহার করা যাবে।</p></div></section>
+    html {
+      scroll-behavior: smooth;
+    }
 
-<section id="about" class="page hidden"><div class="about"><h1>About</h1><p class="muted">Top Image Hub-এ public visitors কোনো login ছাড়াই ছবি, Group/Page link ও download option দেখতে পারবে।</p>
-<div class="link"><div><b>Photo Preview Editor</b><br><small class="muted">Reference editor</small></div><a href="https://photo-preview-editor-main-2.vercel.app/photo-editor" target="_blank" rel="noopener">Open ↗</a></div>
-<div class="link"><div><b>Nigeriar Shortlink</b><br><small class="muted">Shortlink website</small></div><a href="https://nigeriar-shortlink-v2.vercel.app/" target="_blank" rel="noopener">Open ↗</a></div>
-</div></section>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* HEADER */
+    header {
+      height: 60px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 19, 29, .97);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    nav button {
+      background: #112131;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 17px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    nav button:hover,
+    nav button.active {
+      border-color: var(--primary);
+      background: #172c40;
+    }
+
+    /* PAGES */
+    .page {
+      display: none;
+      width: min(1100px, 92%);
+      margin: auto;
+      padding: 55px 0;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* HOME */
+    .hero {
+      text-align: center;
+      padding: 35px 0 50px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 6vw, 60px);
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .notice {
+      margin: 25px auto;
+      max-width: 750px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 12px;
+      color: var(--muted);
+    }
+
+    /* GROUPS */
+    .section-title {
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .group-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .group-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .group-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #0d1924;
+    }
+
+    .group-content {
+      padding: 17px;
+    }
+
+    .group-content h3 {
+      margin-bottom: 8px;
+    }
+
+    .group-content p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .open-btn {
+      display: block;
+      text-align: center;
+      background: var(--primary);
+      color: #06121d;
+      font-weight: bold;
+      padding: 11px;
+      border-radius: 9px;
+    }
+
+    .empty {
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 15px;
+    }
+
+    /* ABOUT */
+    .about-box {
+      max-width: 750px;
+      margin: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 30px;
+      border-radius: 18px;
+    }
+
+    .about-box h1 {
+      margin-bottom: 15px;
+    }
+
+    .about-box p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .external-link {
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      border-radius: 12px;
+      word-break: break-all;
+    }
+
+    .external-link:hover {
+      border-color: var(--primary);
+    }
+
+    /* EDITOR */
+    .editor-box {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .editor-box h1 {
+      margin-bottom: 15px;
+    }
+
+    .editor-box p {
+      color: var(--muted);
+      margin-bottom: 25px;
+    }
+
+    .big-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #06121d;
+      padding: 14px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    /* ADMIN */
+    .admin-box {
+      max-width: 700px;
+      margin: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    .admin-box h1 {
+      margin-bottom: 10px;
+    }
+
+    .admin-info {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #091722;
+      color: white;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--success);
+      border: none;
+      border-radius: 10px;
+      color: #042016;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .admin-login {
+      max-width: 420px;
+      margin: 30px auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 25px;
+      border-radius: 18px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      color: var(--success);
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      padding: 25px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 0 15px;
+      }
+
+      .logo {
+        font-size: 14px;
+      }
+
+      nav button {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .page {
+        padding-top: 35px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="#home" class="logo">◉ <span>TOP</span> IMAGE HUB</a>
+
+  <nav>
+    <button onclick="showPage('home')" id="nav-home">Home</button>
+    <button onclick="showPage('editor')" id="nav-editor">Editor</button>
+    <button onclick="showPage('about')" id="nav-about">About</button>
+  </nav>
+</header>
+
+
+<!-- HOME -->
+<main id="home" class="page">
+  <section class="hero">
+    <h1>Top Image Library</h1>
+    <p>
+      এখানে Admin upload করা Image Group এবং Page Link সবাই দেখতে পারবে।
+      <br>
+      সাধারণ User-এর কোনো Login লাগবে না।
+    </p>
+
+    <div class="notice">
+      নতুন Group এবং Link এখানে automatically দেখানোর জন্য Supabase connect করতে হবে।
+    </div>
+  </section>
+
+  <h2 class="section-title">Image Groups</h2>
+
+  <div id="groupsContainer" class="groups-grid"></div>
+
+  <div id="emptyGroups" class="empty">
+    এখনো কোনো Image Group যোগ করা হয়নি।
+  </div>
+</main>
+
+
+<!-- EDITOR -->
+<main id="editor" class="page">
+  <section class="editor-box">
+    <h1>Photo Editor</h1>
+    <p>Image edit করার জন্য নিচের button চাপুন।</p>
+
+    <a
+      class="big-btn"
+      href="https://photo-preview-editor-main-2.vercel.app/photo-editor"
+      target="_blank"
+    >
+      Open Photo Editor
+    </a>
+  </section>
+</main>
+
+
+<!-- ABOUT -->
+<main id="about" class="page">
+  <section class="about-box">
+    <h1>About TOP IMAGE HUB</h1>
+
+    <p>
+      TOP IMAGE HUB হলো Image এবং Useful Link share করার একটি simple platform।
+      এখানে Admin নতুন Group বা Link যোগ করতে পারবেন এবং সাধারণ User সবাই
+      সেগুলো দেখতে পারবেন।
+    </p>
+
+    <h3 style="margin-bottom:15px;">Useful Links</h3>
+
+    <div class="link-list">
+      <a
+        class="external-link"
+        href="https://photo-preview-editor-main-2.vercel.app/photo-editor"
+        target="_blank"
+      >
+        🖼️ Photo Preview Editor
+      </a>
+
+      <a
+        class="external-link"
+        href="https://nigeriar-shortlink-v2.vercel.app/"
+        target="_blank"
+      >
+        🔗 Short Link
+      </a>
+    </div>
+  </section>
+</main>
+
+
+<!-- ADMIN: URL manually #admin দিলে শুধু এটা দেখা যাবে -->
+<main id="admin" class="page">
+
+  <div id="adminLogin" class="admin-login">
+    <h2 style="margin-bottom:20px;">Admin Access</h2>
+
+    <div class="form-group">
+      <label>Admin Password</label>
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Enter admin password"
+      />
+    </div>
+
+    <button class="submit-btn" onclick="adminLoginCheck()">
+      Login as Admin
+    </button>
+
+    <div id="loginMessage" class="message"></div>
+  </div>
+
+
+  <div id="adminPanel" class="admin-box hidden">
+    <h1>Add New Image Group</h1>
+
+    <p class="admin-info">
+      এখানে নতুন Group, Image এবং Link যোগ করলে সেটা Home page-এ সবাই দেখতে পারবে।
+    </p>
+
+    <div class="form-group">
+      <label>Group Title</label>
+      <input id="groupTitle" placeholder="Example: Nature Images" />
+    </div>
+
+    <div class="form-group">
+      <label>Image URL</label>
+      <input
+        id="groupImage"
+        placeholder="https://example.com/image.jpg"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea
+        id="groupDescription"
+        placeholder="Write something about this group..."
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Group/Page Link</label>
+      <input
+        id="groupLink"
+        placeholder="https://example.com"
+      />
+    </div>
+
+    <button class="submit-btn" onclick="addGroup()">
+      Publish Group
+    </button>
+
+    <div id="publishMessage" class="message"></div>
+  </div>
+
+</main>
+
+
+<footer>
+  © 2026 TOP IMAGE HUB
+</footer>
+
+
 <script>
-const SUPABASE_URL='YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
-let sb=null,current=null;
-try{if(!SUPABASE_URL.startsWith('YOUR_'))sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
-function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');location.hash=id}
-function esc(x){return String(x||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-async function load(){
- const g=document.getElementById('gallery'),s=document.getElementById('status');
- if(!sb){s.textContent='Site setup বাকি: Supabase URL ও Key বসাতে হবে।';return}
- s.textContent='Loading...';
- const {data,error}=await sb.from('gallery_items').select('*').order('created_at',{ascending:false});
- if(error){s.textContent='Error: '+error.message;return}
- s.textContent=data.length?'সব Group/Page সবার জন্য available।':'এখনো কোনো item নেই।';
- g.innerHTML=data.length?'': '<div class="empty">এখনো কোনো ছবি upload করা হয়নি।</div>';
- data.forEach(x=>{const c=document.createElement('article');c.className='card';c.innerHTML=x.image_url?`<img src="${esc(x.image_url)}">`:'<div class="ph">🖼️</div>';c.innerHTML+=`<div class="pad"><h3>${esc(x.name)}</h3><small>Click to open</small></div>`;c.onclick=()=>openItem(x);g.appendChild(c)})
-}
-function openItem(x){current=x;dimg.src=x.image_url||'';dname.textContent=x.name;dtext.textContent='ছবি download করুন অথবা Group/Page link-এ যান।';dlink.href=x.page_link;show('detail')}
-download.onclick=()=>{if(!current?.image_url)return;const a=document.createElement('a');a.href=current.image_url;a.download=(current.name||'image')+'.jpg';a.click()}
-if(location.hash==='#about')show('about'); else if(location.hash==='#editor')show('editor'); else show('home');load();
-</script></body></html>
+  /*
+    ============================================
+    ADMIN PASSWORD
+    এটা নিজের পছন্দমতো change করবে
+    ============================================
+  */
+
+  const ADMIN_PASSWORD = "123456";
+
+
+  /*
+    ============================================
+    TEMPORARY DATA STORAGE
+    Supabase connect না করা পর্যন্ত browser localStorage ব্যবহার করবে।
+
+    একই browser-এ ঠিক থাকবে।
+    সবাইকে globally দেখানোর জন্য নিচের Supabase section
+    পরে connect করতে হবে।
+    ============================================
+  */
+
+  const STORAGE_KEY = "top_image_hub_groups";
+
+
+  function getGroups() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+
+  function saveGroups(groups) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(groups));
+  }
+
+
+  function renderGroups() {
+    const groups = getGroups();
+
+    const container = document.getElementById("groupsContainer");
+    const empty = document.getElementById("emptyGroups");
+
+    container.innerHTML = "";
+
+    if (!groups.length) {
+      empty.classList.remove("hidden");
+      return;
+    }
+
+    empty.classList.add("hidden");
+
+    groups.forEach(group => {
+      const card = document.createElement("div");
+      card.className = "group-card";
+
+      const safeTitle = escapeHtml(group.title);
+      const safeDescription = escapeHtml(group.description);
+
+      card.innerHTML = `
+        <img
+          class="group-image"
+          src="${escapeAttribute(group.image)}"
+          alt="${safeTitle}"
+          onerror="this.style.display='none'"
+        >
+
+        <div class="group-content">
+          <h3>${safeTitle}</h3>
+          <p>${safeDescription}</p>
+
+          <a
+            class="open-btn"
+            href="${escapeAttribute(group.link)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Group
+          </a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text || "";
+    return div.innerHTML;
+  }
+
+
+  function escapeAttribute(text) {
+    return String(text || "")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  /*
+    ============================================
+    PAGE ROUTING
+    ============================================
+  */
+
+  function showPage(pageName) {
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
+    });
+
+    const target = document.getElementById(pageName);
+
+    if (target) {
+      target.classList.add("active");
+    }
+
+    document.querySelectorAll("nav button").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    const navButton = document.getElementById("nav-" + pageName);
+
+    if (navButton) {
+      navButton.classList.add("active");
+    }
+
+    window.location.hash = pageName;
+  }
+
+
+  function loadRoute() {
+    const pageName = window.location.hash.replace("#", "") || "home";
+
+    const allowedPages = ["home", "editor", "about", "admin"];
+
+    if (allowedPages.includes(pageName)) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageName).classList.add("active");
+
+      document.querySelectorAll("nav button").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      const navButton = document.getElementById("nav-" + pageName);
+
+      if (navButton) {
+        navButton.classList.add("active");
+      }
+    } else {
+      showPage("home");
+    }
+  }
+
+
+  window.addEventListener("hashchange", loadRoute);
+
+
+  /*
+    ============================================
+    ADMIN LOGIN
+    সাধারণ User-এর জন্য login কোথাও দেখাবে না।
+    শুধু #admin URL খুললে দেখা যাবে।
+    ============================================
+  */
+
+  function adminLoginCheck() {
+    const password = document.getElementById("adminPassword").value;
+    const message = document.getElementById("loginMessage");
+
+    if (password === ADMIN_PASSWORD) {
+      sessionStorage.setItem("topImageHubAdmin", "yes");
+
+      document.getElementById("adminLogin").classList.add("hidden");
+      document.getElementById("adminPanel").classList.remove("hidden");
+
+      message.textContent = "";
+    } else {
+      message.textContent = "Wrong password!";
+      message.classList.add("error");
+    }
+  }
+
+
+  function checkAdminSession() {
+    if (sessionStorage.getItem("topImageHubAdmin") === "yes") {
+      document.getElementById("adminLogin").classList.add("hidden");
+      document.getElementById("adminPanel").classList.remove("hidden");
+    }
+  }
+
+
+  /*
+    ============================================
+    ADD GROUP
+    ============================================
+  */
+
+  function addGroup() {
+    const title = document.getElementById("groupTitle").value.trim();
+    const image = document.getElementById("groupImage").value.trim();
+    const description = document.getElementById("groupDescription").value.trim();
+    const link = document.getElementById("groupLink").value.trim();
+
+    const message = document.getElementById("publishMessage");
+
+    if (!title || !image || !link) {
+      message.textContent = "Title, Image URL এবং Group Link দিতে হবে!";
+      message.classList.add("error");
+      return;
+    }
+
+    const groups = getGroups();
+
+    groups.unshift({
+      id: Date.now(),
+      title,
+      image,
+      description,
+      link
+    });
+
+    saveGroups(groups);
+
+    document.getElementById("groupTitle").value = "";
+    document.getElementById("groupImage").value = "";
+    document.getElementById("groupDescription").value = "";
+    document.getElementById("groupLink").value = "";
+
+    message.textContent = "Group successfully published!";
+    message.classList.remove("error");
+
+    renderGroups();
+  }
+
+
+  /*
+    ============================================
+    INITIAL LOAD
+    ============================================
+  */
+
+  renderGroups();
+  loadRoute();
+  checkAdminSession();
+
+</script>
+
+</body>
+</html>
