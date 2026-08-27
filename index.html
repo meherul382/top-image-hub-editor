@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>TOP IMAGE HUB</title>
 
   <style>
@@ -16,16 +17,12 @@
       --bg: #08131d;
       --card: #101f2d;
       --card2: #13283a;
-      --border: #24394b;
+      --border: #294354;
       --text: #f5f7fa;
       --muted: #a8b5c2;
       --primary: #4da3ff;
       --danger: #ff5d5d;
       --success: #31c48d;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
@@ -35,34 +32,37 @@
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    button,
+    input,
+    textarea {
+      font: inherit;
     }
 
-    /* HEADER */
+    button {
+      cursor: pointer;
+    }
+
+    /* ================= HEADER ================= */
+
     header {
-      height: 60px;
+      height: 58px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 5%;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8, 19, 29, .97);
-      backdrop-filter: blur(10px);
+      background: #0b1823;
     }
 
     .logo {
+      color: var(--text);
       font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-weight: bold;
+      letter-spacing: 2px;
     }
 
     .logo span {
-      color: var(--primary);
+      color: #75b8ff;
     }
 
     nav {
@@ -71,42 +71,42 @@
     }
 
     nav button {
-      background: #112131;
+      background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 10px 17px;
+      padding: 9px 18px;
       border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
     }
 
     nav button:hover,
     nav button.active {
       border-color: var(--primary);
-      background: #172c40;
+      background: #152b3d;
     }
 
-    /* PAGES */
+    /* ================= PAGES ================= */
+
     .page {
       display: none;
-      width: min(1100px, 92%);
+      width: min(1050px, 92%);
       margin: auto;
-      padding: 55px 0;
+      padding: 70px 0;
     }
 
     .page.active {
       display: block;
     }
 
-    /* HOME */
+    /* ================= HOME ================= */
+
     .hero {
       text-align: center;
-      padding: 35px 0 50px;
+      margin-bottom: 65px;
     }
 
     .hero h1 {
-      font-size: clamp(34px, 6vw, 60px);
-      margin-bottom: 16px;
+      font-size: clamp(40px, 6vw, 64px);
+      margin-bottom: 18px;
     }
 
     .hero p {
@@ -116,33 +116,32 @@
     }
 
     .notice {
-      margin: 25px auto;
-      max-width: 750px;
-      padding: 14px 18px;
+      max-width: 720px;
+      margin: 30px auto 0;
+      padding: 15px 20px;
       border: 1px solid var(--border);
-      background: var(--card);
       border-radius: 12px;
+      background: var(--card);
       color: var(--muted);
     }
 
-    /* GROUPS */
     .section-title {
-      margin-bottom: 25px;
       font-size: 28px;
+      margin-bottom: 25px;
     }
 
     .groups-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
     }
 
     .group-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
-      transition: .2s;
+      transition: 0.2s;
     }
 
     .group-card:hover {
@@ -155,14 +154,15 @@
       height: 180px;
       object-fit: cover;
       display: block;
-      background: #0d1924;
+      background: var(--card2);
     }
 
     .group-content {
-      padding: 17px;
+      padding: 18px;
     }
 
     .group-content h3 {
+      font-size: 20px;
       margin-bottom: 8px;
     }
 
@@ -173,179 +173,175 @@
       margin-bottom: 15px;
     }
 
-    .open-btn {
-      display: block;
-      text-align: center;
+    .visit-btn {
+      display: inline-block;
+      text-decoration: none;
       background: var(--primary);
-      color: #06121d;
+      color: #06121c;
       font-weight: bold;
-      padding: 11px;
-      border-radius: 9px;
+      padding: 10px 16px;
+      border-radius: 8px;
     }
 
     .empty {
-      padding: 50px 20px;
-      text-align: center;
-      color: var(--muted);
       border: 1px dashed var(--border);
-      border-radius: 15px;
-    }
-
-    /* ABOUT */
-    .about-box {
-      max-width: 750px;
-      margin: auto;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 30px;
-      border-radius: 18px;
-    }
-
-    .about-box h1 {
-      margin-bottom: 15px;
-    }
-
-    .about-box p {
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 25px;
-    }
-
-    .link-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .external-link {
-      padding: 16px;
-      border: 1px solid var(--border);
-      background: var(--card2);
-      border-radius: 12px;
-      word-break: break-all;
-    }
-
-    .external-link:hover {
-      border-color: var(--primary);
-    }
-
-    /* EDITOR */
-    .editor-box {
-      text-align: center;
+      border-radius: 14px;
       padding: 50px 20px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-    }
-
-    .editor-box h1 {
-      margin-bottom: 15px;
-    }
-
-    .editor-box p {
+      text-align: center;
       color: var(--muted);
-      margin-bottom: 25px;
+      grid-column: 1 / -1;
     }
 
-    .big-btn {
-      display: inline-block;
-      background: var(--primary);
-      color: #06121d;
-      padding: 14px 25px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
+    /* ================= ADMIN ================= */
 
-    /* ADMIN */
     .admin-box {
-      max-width: 700px;
+      max-width: 720px;
       margin: auto;
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 16px;
       padding: 25px;
     }
 
-    .admin-box h1 {
+    .admin-box h2 {
       margin-bottom: 10px;
     }
 
-    .admin-info {
+    .admin-box > p {
       color: var(--muted);
       margin-bottom: 25px;
       line-height: 1.6;
     }
 
+    .login-box {
+      max-width: 450px;
+      margin: 50px auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       color: var(--muted);
       font-size: 14px;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
       background: #091722;
-      color: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 9px;
       outline: none;
     }
 
-    input:focus, textarea:focus {
+    input:focus,
+    textarea:focus {
       border-color: var(--primary);
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 90px;
       resize: vertical;
     }
 
-    .submit-btn {
-      width: 100%;
-      padding: 13px;
-      background: var(--success);
+    .primary-btn {
       border: none;
-      border-radius: 10px;
-      color: #042016;
+      background: var(--success);
+      color: #052016;
       font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
+      padding: 12px 18px;
+      border-radius: 9px;
     }
 
-    .admin-login {
-      max-width: 420px;
-      margin: 30px auto;
-      background: var(--card);
+    .danger-btn {
+      border: none;
+      background: var(--danger);
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
+    }
+
+    .secondary-btn {
       border: 1px solid var(--border);
-      padding: 25px;
-      border-radius: 18px;
+      background: var(--card2);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 8px;
     }
 
-    .hidden {
-      display: none !important;
+    .admin-list {
+      margin-top: 35px;
+    }
+
+    .admin-item {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      background: #0b1823;
+    }
+
+    .admin-item-info {
+      min-width: 0;
+    }
+
+    .admin-item-info strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .admin-item-info small {
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .message {
       margin-top: 15px;
-      text-align: center;
-      color: var(--success);
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
     }
 
-    .error {
-      color: var(--danger);
+    .message.success {
+      display: block;
+      background: rgba(49, 196, 141, 0.15);
+      color: #7ff0bf;
     }
+
+    .message.error {
+      display: block;
+      background: rgba(255, 93, 93, 0.15);
+      color: #ff9d9d;
+    }
+
+    /* ================= FOOTER ================= */
 
     footer {
       border-top: 1px solid var(--border);
       text-align: center;
       color: var(--muted);
       padding: 25px;
-      margin-top: 50px;
+      margin-top: 40px;
     }
 
     @media (max-width: 600px) {
@@ -359,11 +355,15 @@
 
       nav button {
         padding: 8px 10px;
-        font-size: 12px;
       }
 
       .page {
-        padding-top: 35px;
+        padding: 45px 0;
+      }
+
+      .admin-item {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
   </style>
@@ -371,420 +371,832 @@
 
 <body>
 
-<header>
-  <a href="#home" class="logo">◉ <span>TOP</span> IMAGE HUB</a>
+  <header>
+    <div class="logo">◉ <span>TOP</span> IMAGE HUB</div>
 
-  <nav>
-    <button onclick="showPage('home')" id="nav-home">Home</button>
-    <button onclick="showPage('editor')" id="nav-editor">Editor</button>
-    <button onclick="showPage('about')" id="nav-about">About</button>
-  </nav>
-</header>
+    <nav>
+      <button class="nav-btn active" onclick="showPage('home')">
+        Home
+      </button>
 
+      <button class="nav-btn" onclick="showPage('admin')">
+        Editor
+      </button>
 
-<!-- HOME -->
-<main id="home" class="page">
-  <section class="hero">
-    <h1>Top Image Library</h1>
-    <p>
-      এখানে Admin upload করা Image Group এবং Page Link সবাই দেখতে পারবে।
-      <br>
-      সাধারণ User-এর কোনো Login লাগবে না।
-    </p>
-
-    <div class="notice">
-      নতুন Group এবং Link এখানে automatically দেখানোর জন্য Supabase connect করতে হবে।
-    </div>
-  </section>
-
-  <h2 class="section-title">Image Groups</h2>
-
-  <div id="groupsContainer" class="groups-grid"></div>
-
-  <div id="emptyGroups" class="empty">
-    এখনো কোনো Image Group যোগ করা হয়নি।
-  </div>
-</main>
+      <button class="nav-btn" onclick="showPage('about')">
+        About
+      </button>
+    </nav>
+  </header>
 
 
-<!-- EDITOR -->
-<main id="editor" class="page">
-  <section class="editor-box">
-    <h1>Photo Editor</h1>
-    <p>Image edit করার জন্য নিচের button চাপুন।</p>
+  <!-- ================= HOME ================= -->
 
-    <a
-      class="big-btn"
-      href="https://photo-preview-editor-main-2.vercel.app/photo-editor"
-      target="_blank"
-    >
-      Open Photo Editor
-    </a>
-  </section>
-</main>
+  <main id="home" class="page active">
 
+    <section class="hero">
+      <h1>Top Image Library</h1>
 
-<!-- ABOUT -->
-<main id="about" class="page">
-  <section class="about-box">
-    <h1>About TOP IMAGE HUB</h1>
+      <p>
+        এখানে Admin upload করা Image Group এবং Page Link সবাই দেখতে পারবে।<br>
+        সাধারণ User-এর কোনো Login লাগবে না।
+      </p>
 
-    <p>
-      TOP IMAGE HUB হলো Image এবং Useful Link share করার একটি simple platform।
-      এখানে Admin নতুন Group বা Link যোগ করতে পারবেন এবং সাধারণ User সবাই
-      সেগুলো দেখতে পারবেন।
-    </p>
+      <div class="notice">
+        নতুন Group এবং Link এখানে automatically দেখানোর জন্য Supabase connect করা হয়েছে।
+      </div>
+    </section>
 
-    <h3 style="margin-bottom:15px;">Useful Links</h3>
+    <section>
+      <h2 class="section-title">Image Groups</h2>
 
-    <div class="link-list">
-      <a
-        class="external-link"
-        href="https://photo-preview-editor-main-2.vercel.app/photo-editor"
-        target="_blank"
-      >
-        🖼️ Photo Preview Editor
-      </a>
+      <div id="groupsContainer" class="groups-grid">
+        <div class="empty">
+          Loading Image Groups...
+        </div>
+      </div>
+    </section>
 
-      <a
-        class="external-link"
-        href="https://nigeriar-shortlink-v2.vercel.app/"
-        target="_blank"
-      >
-        🔗 Short Link
-      </a>
-    </div>
-  </section>
-</main>
+  </main>
 
 
-<!-- ADMIN: URL manually #admin দিলে শুধু এটা দেখা যাবে -->
-<main id="admin" class="page">
+  <!-- ================= ADMIN ================= -->
 
-  <div id="adminLogin" class="admin-login">
-    <h2 style="margin-bottom:20px;">Admin Access</h2>
+  <main id="admin" class="page">
 
-    <div class="form-group">
-      <label>Admin Password</label>
-      <input
-        type="password"
-        id="adminPassword"
-        placeholder="Enter admin password"
-      />
-    </div>
+    <!-- LOGIN -->
+    <div id="loginBox" class="login-box">
+      <h2>Admin Login</h2>
 
-    <button class="submit-btn" onclick="adminLoginCheck()">
-      Login as Admin
-    </button>
+      <p style="color:#a8b5c2; margin:12px 0 20px;">
+        শুধু Admin নতুন Image Group add করতে পারবে।
+      </p>
 
-    <div id="loginMessage" class="message"></div>
-  </div>
+      <div class="form-group">
+        <label>Admin Password</label>
 
-
-  <div id="adminPanel" class="admin-box hidden">
-    <h1>Add New Image Group</h1>
-
-    <p class="admin-info">
-      এখানে নতুন Group, Image এবং Link যোগ করলে সেটা Home page-এ সবাই দেখতে পারবে।
-    </p>
-
-    <div class="form-group">
-      <label>Group Title</label>
-      <input id="groupTitle" placeholder="Example: Nature Images" />
-    </div>
-
-    <div class="form-group">
-      <label>Image URL</label>
-      <input
-        id="groupImage"
-        placeholder="https://example.com/image.jpg"
-      />
-    </div>
-
-    <div class="form-group">
-      <label>Description</label>
-      <textarea
-        id="groupDescription"
-        placeholder="Write something about this group..."
-      ></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Group/Page Link</label>
-      <input
-        id="groupLink"
-        placeholder="https://example.com"
-      />
-    </div>
-
-    <button class="submit-btn" onclick="addGroup()">
-      Publish Group
-    </button>
-
-    <div id="publishMessage" class="message"></div>
-  </div>
-
-</main>
-
-
-<footer>
-  © 2026 TOP IMAGE HUB
-</footer>
-
-
-<script>
-  /*
-    ============================================
-    ADMIN PASSWORD
-    এটা নিজের পছন্দমতো change করবে
-    ============================================
-  */
-
-  const ADMIN_PASSWORD = "123456";
-
-
-  /*
-    ============================================
-    TEMPORARY DATA STORAGE
-    Supabase connect না করা পর্যন্ত browser localStorage ব্যবহার করবে।
-
-    একই browser-এ ঠিক থাকবে।
-    সবাইকে globally দেখানোর জন্য নিচের Supabase section
-    পরে connect করতে হবে।
-    ============================================
-  */
-
-  const STORAGE_KEY = "top_image_hub_groups";
-
-
-  function getGroups() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-
-  function saveGroups(groups) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(groups));
-  }
-
-
-  function renderGroups() {
-    const groups = getGroups();
-
-    const container = document.getElementById("groupsContainer");
-    const empty = document.getElementById("emptyGroups");
-
-    container.innerHTML = "";
-
-    if (!groups.length) {
-      empty.classList.remove("hidden");
-      return;
-    }
-
-    empty.classList.add("hidden");
-
-    groups.forEach(group => {
-      const card = document.createElement("div");
-      card.className = "group-card";
-
-      const safeTitle = escapeHtml(group.title);
-      const safeDescription = escapeHtml(group.description);
-
-      card.innerHTML = `
-        <img
-          class="group-image"
-          src="${escapeAttribute(group.image)}"
-          alt="${safeTitle}"
-          onerror="this.style.display='none'"
+        <input
+          type="password"
+          id="adminPasswordInput"
+          placeholder="Password লিখুন"
         >
+      </div>
 
-        <div class="group-content">
-          <h3>${safeTitle}</h3>
-          <p>${safeDescription}</p>
+      <button class="primary-btn" onclick="adminLogin()">
+        Login
+      </button>
 
-          <a
-            class="open-btn"
-            href="${escapeAttribute(group.link)}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Group
-          </a>
+      <div id="loginMessage" class="message"></div>
+    </div>
+
+
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel" style="display:none;">
+
+      <div class="admin-box">
+
+        <h2>Add New Image Group</h2>
+
+        <p>
+          এখানে নতুন Group-এর নাম, Image URL এবং Page Link যোগ করুন।
+        Save করলে Home page-এ automatically দেখা যাবে।
+        Image upload না করে আপাতত সরাসরি Image URL ব্যবহার করুন।
+      </p>
+
+
+      <div class="form-group">
+        <label>Group Name *</label>
+
+        <input
+          type="text"
+          id="groupName"
+          placeholder="যেমন: Nature Images"
+        >
+      </div>
+
+
+      <div class="form-group">
+        <label>Description</label>
+
+        <textarea
+          id="groupDescription"
+          placeholder="ছোট Description লিখুন"
+        ></textarea>
+      </div>
+
+
+      <div class="form-group">
+        <label>Image URL *</label>
+
+        <input
+          type="url"
+          id="imageUrl"
+          placeholder="https://example.com/image.jpg"
+        >
+      </div>
+
+
+      <div class="form-group">
+        <label>Page / Group Link *</label>
+
+        <input
+          type="url"
+          id="pageUrl"
+          placeholder="https://example.com"
+        >
+      </div>
+
+
+      <button class="primary-btn" onclick="saveGroup()">
+        Save Group
+      </button>
+
+      <button
+        class="secondary-btn"
+        style="margin-left:8px;"
+        onclick="logoutAdmin()"
+      >
+        Logout
+      </button>
+
+      <div id="adminMessage" class="message"></div>
+
+
+      <div class="admin-list">
+        <h2 style="margin-bottom:18px;">Manage Groups</h2>
+
+        <div id="adminGroupsList">
+          Loading...
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================= ABOUT ================= -->
+
+  <main id="about" class="page">
+
+    <div class="admin-box">
+      <h2>About TOP IMAGE HUB</h2>
+
+      <p>
+        TOP IMAGE HUB হলো একটি সহজ Image Group এবং Link Library।
+        Admin নতুন Group যোগ করতে পারে এবং সবাই Home page থেকে সেগুলো দেখতে পারে।
+      </p>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    © 2026 TOP IMAGE HUB
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script type="module">
+  import { createClient } from
+    "https://esm.sh/@supabase/supabase-js@2";
+
+  const SUPABASE_URL = "https://qbijrkdlaguwlvriaiky.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CS7wauVRlHpbsdjJFdWl1g_cNdjogHJ";  
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+
+
+    /* ============================================
+       এখানে তোমার Supabase তথ্য বসাও
+    ============================================ */
+
+    const SUPABASE_URL =
+      "https://qbijrkdlaguwlvriaiky.supabase.co";
+
+
+    const SUPABASE_KEY =
+      "এখানে_তোমার_publishable_key_বসাও";
+
+
+    const supabase =
+      createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    /* ============================================
+       ADMIN PASSWORD
+       চাইলে এটা পরিবর্তন করতে পারো
+    ============================================ */
+
+    const ADMIN_PASSWORD = "123456";
+
+
+    let isAdmin = false;
+    let editingId = null;
+
+
+    /* ============================================
+       PAGE CHANGE
+    ============================================ */
+
+    window.showPage = function(pageName) {
+
+      document
+        .querySelectorAll(".page")
+        .forEach(page => {
+          page.classList.remove("active");
+        });
+
+
+      document
+        .getElementById(pageName)
+        .classList.add("active");
+
+
+      document
+        .querySelectorAll(".nav-btn")
+        .forEach(button => {
+          button.classList.remove("active");
+        });
+
+
+      if (pageName === "home") {
+        document
+          .querySelectorAll(".nav-btn")[0]
+          .classList.add("active");
+      }
+
+      if (pageName === "admin") {
+        document
+          .querySelectorAll(".nav-btn")[1]
+          .classList.add("active");
+      }
+
+      if (pageName === "about") {
+        document
+          .querySelectorAll(".nav-btn")[2]
+          .classList.add("active");
+      }
+
+    };
+
+
+    /* ============================================
+       নিরাপদ HTML
+    ============================================ */
+
+    function escapeHtml(text) {
+
+      const div = document.createElement("div");
+
+      div.textContent = text || "";
+
+      return div.innerHTML;
+
+    }
+
+
+    /* ============================================
+       MESSAGE
+    ============================================ */
+
+    function showMessage(id, text, type = "success") {
+
+      const box = document.getElementById(id);
+
+      box.textContent = text;
+
+      box.className = "message " + type;
+
+    }
+
+
+    function clearMessage(id) {
+
+      const box = document.getElementById(id);
+
+      box.textContent = "";
+
+      box.className = "message";
+
+    }
+
+
+    /* ============================================
+       LOAD GROUPS FROM SUPABASE
+    ============================================ */
+
+    async function loadGroups() {
+
+      const container =
+        document.getElementById("groupsContainer");
+
+
+      container.innerHTML = `
+        <div class="empty">
+          Loading Image Groups...
         </div>
       `;
 
-      container.appendChild(card);
-    });
-  }
+
+      const { data, error } = await supabase
+        .from("groups")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
 
 
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text || "";
-    return div.innerHTML;
-  }
+      if (error) {
 
+        console.error(error);
 
-  function escapeAttribute(text) {
-    return String(text || "")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
+        container.innerHTML = `
+          <div class="empty">
+            Group load করা যায়নি।<br><br>
+            Supabase URL, Publishable Key এবং groups table check করুন।
+          </div>
+        `;
 
+        return;
 
-  /*
-    ============================================
-    PAGE ROUTING
-    ============================================
-  */
-
-  function showPage(pageName) {
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.remove("active");
-    });
-
-    const target = document.getElementById(pageName);
-
-    if (target) {
-      target.classList.add("active");
-    }
-
-    document.querySelectorAll("nav button").forEach(btn => {
-      btn.classList.remove("active");
-    });
-
-    const navButton = document.getElementById("nav-" + pageName);
-
-    if (navButton) {
-      navButton.classList.add("active");
-    }
-
-    window.location.hash = pageName;
-  }
-
-
-  function loadRoute() {
-    const pageName = window.location.hash.replace("#", "") || "home";
-
-    const allowedPages = ["home", "editor", "about", "admin"];
-
-    if (allowedPages.includes(pageName)) {
-      document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-      });
-
-      document.getElementById(pageName).classList.add("active");
-
-      document.querySelectorAll("nav button").forEach(btn => {
-        btn.classList.remove("active");
-      });
-
-      const navButton = document.getElementById("nav-" + pageName);
-
-      if (navButton) {
-        navButton.classList.add("active");
       }
-    } else {
-      showPage("home");
-    }
-  }
 
 
-  window.addEventListener("hashchange", loadRoute);
+      if (!data || data.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty">
+            এখানে কোনো Image Group যোগ করা হয়নি।
+          </div>
+        `;
+
+        return;
+
+      }
 
 
-  /*
-    ============================================
-    ADMIN LOGIN
-    সাধারণ User-এর জন্য login কোথাও দেখাবে না।
-    শুধু #admin URL খুললে দেখা যাবে।
-    ============================================
-  */
+      container.innerHTML = data
+        .map(group => `
 
-  function adminLoginCheck() {
-    const password = document.getElementById("adminPassword").value;
-    const message = document.getElementById("loginMessage");
+          <article class="group-card">
 
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem("topImageHubAdmin", "yes");
+            <img
+              class="group-image"
+              src="${escapeHtml(group.image_url)}"
+              alt="${escapeHtml(group.name)}"
+              onerror="this.style.display='none'"
+            >
 
-      document.getElementById("adminLogin").classList.add("hidden");
-      document.getElementById("adminPanel").classList.remove("hidden");
+            <div class="group-content">
 
-      message.textContent = "";
-    } else {
-      message.textContent = "Wrong password!";
-      message.classList.add("error");
-    }
-  }
+              <h3>
+                ${escapeHtml(group.name)}
+              </h3>
 
+              <p>
+                ${escapeHtml(group.description || "")}
+              </p>
 
-  function checkAdminSession() {
-    if (sessionStorage.getItem("topImageHubAdmin") === "yes") {
-      document.getElementById("adminLogin").classList.add("hidden");
-      document.getElementById("adminPanel").classList.remove("hidden");
-    }
-  }
+              <a
+                class="visit-btn"
+                href="${escapeHtml(group.page_url)}"
+                target="_blank"
+                rel="noopener"
+              >
+                View Group →
+              </a>
 
+            </div>
 
-  /*
-    ============================================
-    ADD GROUP
-    ============================================
-  */
+          </article>
 
-  function addGroup() {
-    const title = document.getElementById("groupTitle").value.trim();
-    const image = document.getElementById("groupImage").value.trim();
-    const description = document.getElementById("groupDescription").value.trim();
-    const link = document.getElementById("groupLink").value.trim();
+        `)
+        .join("");
 
-    const message = document.getElementById("publishMessage");
-
-    if (!title || !image || !link) {
-      message.textContent = "Title, Image URL এবং Group Link দিতে হবে!";
-      message.classList.add("error");
-      return;
     }
 
-    const groups = getGroups();
 
-    groups.unshift({
-      id: Date.now(),
-      title,
-      image,
-      description,
-      link
-    });
+    /* ============================================
+       ADMIN LOGIN
+    ============================================ */
 
-    saveGroups(groups);
+    window.adminLogin = function() {
 
-    document.getElementById("groupTitle").value = "";
-    document.getElementById("groupImage").value = "";
-    document.getElementById("groupDescription").value = "";
-    document.getElementById("groupLink").value = "";
-
-    message.textContent = "Group successfully published!";
-    message.classList.remove("error");
-
-    renderGroups();
-  }
+      const password =
+        document
+          .getElementById("adminPasswordInput")
+          .value;
 
 
-  /*
-    ============================================
-    INITIAL LOAD
-    ============================================
-  */
+      if (password === ADMIN_PASSWORD) {
 
-  renderGroups();
-  loadRoute();
-  checkAdminSession();
+        isAdmin = true;
 
-</script>
+        document
+          .getElementById("loginBox")
+          .style.display = "none";
+
+
+        document
+          .getElementById("adminPanel")
+          .style.display = "block";
+
+
+        loadAdminGroups();
+
+      } else {
+
+        showMessage(
+          "loginMessage",
+          "Password ভুল হয়েছে!",
+          "error"
+        );
+
+      }
+
+    };
+
+
+    window.logoutAdmin = function() {
+
+      isAdmin = false;
+
+      editingId = null;
+
+
+      document
+        .getElementById("adminPasswordInput")
+        .value = "";
+
+
+      document
+        .getElementById("loginBox")
+        .style.display = "block";
+
+
+      document
+        .getElementById("adminPanel")
+        .style.display = "none";
+
+
+      clearForm();
+
+    };
+
+
+    /* ============================================
+       SAVE GROUP
+    ============================================ */
+
+    window.saveGroup = async function() {
+
+      if (!isAdmin) {
+        return;
+      }
+
+
+      clearMessage("adminMessage");
+
+
+      const name =
+        document
+          .getElementById("groupName")
+          .value
+          .trim();
+
+
+      const description =
+        document
+          .getElementById("groupDescription")
+          .value
+          .trim();
+
+
+      const imageUrl =
+        document
+          .getElementById("imageUrl")
+          .value
+          .trim();
+
+
+      const pageUrl =
+        document
+          .getElementById("pageUrl")
+          .value
+          .trim();
+
+
+      if (!name || !imageUrl || !pageUrl) {
+
+        showMessage(
+          "adminMessage",
+          "Group Name, Image URL এবং Page Link অবশ্যই দিতে হবে।",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const payload = {
+        name: name,
+        description: description,
+        image_url: imageUrl,
+        page_url: pageUrl
+      };
+
+
+      let error;
+
+
+      if (editingId) {
+
+        const result = await supabase
+          .from("groups")
+          .update(payload)
+          .eq("id", editingId);
+
+
+        error = result.error;
+
+      } else {
+
+        const result = await supabase
+          .from("groups")
+          .insert([payload]);
+
+
+        error = result.error;
+
+      }
+
+
+      if (error) {
+
+        console.error(error);
+
+        showMessage(
+          "adminMessage",
+          "Save করা যায়নি: " + error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showMessage(
+        "adminMessage",
+        editingId
+          ? "Group successfully update হয়েছে!"
+          : "নতুন Group successfully add হয়েছে!"
+      );
+
+
+      clearForm();
+
+      editingId = null;
+
+
+      await loadGroups();
+
+      await loadAdminGroups();
+
+    };
+
+
+    /* ============================================
+       ADMIN GROUP LIST
+    ============================================ */
+
+    async function loadAdminGroups() {
+
+      const container =
+        document.getElementById("adminGroupsList");
+
+
+      const { data, error } = await supabase
+        .from("groups")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+
+      if (error) {
+
+        container.innerHTML =
+          `<p style="color:#ff9d9d;">
+            ${escapeHtml(error.message)}
+          </p>`;
+
+        return;
+
+      }
+
+
+      if (!data || data.length === 0) {
+
+        container.innerHTML =
+          `<p style="color:#a8b5c2;">
+            এখনো কোনো Group নেই।
+          </p>`;
+
+        return;
+
+      }
+
+
+      container.innerHTML = data
+        .map(group => `
+
+          <div class="admin-item">
+
+            <div class="admin-item-info">
+
+              <strong>
+                ${escapeHtml(group.name)}
+              </strong>
+
+              <small>
+                ${escapeHtml(group.page_url)}
+              </small>
+
+            </div>
+
+
+            <div class="admin-actions">
+
+              <button
+                class="secondary-btn"
+                onclick="editGroup(
+                  '${group.id}'
+                )"
+              >
+                Edit
+              </button>
+
+
+              <button
+                class="danger-btn"
+                onclick="deleteGroup(
+                  '${group.id}'
+                )"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        `)
+        .join("");
+
+    }
+
+
+    /* ============================================
+       EDIT GROUP
+    ============================================ */
+
+    window.editGroup = async function(id) {
+
+      const { data, error } = await supabase
+        .from("groups")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+      if (error) {
+
+        showMessage(
+          "adminMessage",
+          error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      editingId = id;
+
+
+      document
+        .getElementById("groupName")
+        .value = data.name || "";
+
+
+      document
+        .getElementById("groupDescription")
+        .value = data.description || "";
+
+
+      document
+        .getElementById("imageUrl")
+        .value = data.image_url || "";
+
+
+      document
+        .getElementById("pageUrl")
+        .value = data.page_url || "";
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    };
+
+
+    /* ============================================
+       DELETE GROUP
+    ============================================ */
+
+    window.deleteGroup = async function(id) {
+
+      if (!confirm("আপনি কি এই Group Delete করতে চান?")) {
+        return;
+      }
+
+
+      const { error } = await supabase
+        .from("groups")
+        .delete()
+        .eq("id", id);
+
+
+      if (error) {
+
+        showMessage(
+          "adminMessage",
+          "Delete করা যায়নি: " + error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showMessage(
+        "adminMessage",
+        "Group Delete করা হয়েছে।"
+      );
+
+
+      await loadGroups();
+
+      await loadAdminGroups();
+
+    };
+
+
+    /* ============================================
+       CLEAR FORM
+    ============================================ */
+
+    function clearForm() {
+
+      document
+        .getElementById("groupName")
+        .value = "";
+
+
+      document
+        .getElementById("groupDescription")
+        .value = "";
+
+
+      document
+        .getElementById("imageUrl")
+        .value = "";
+
+
+      document
+        .getElementById("pageUrl")
+        .value = "";
+
+    }
+
+
+    /* ============================================
+       FIRST LOAD
+    ============================================ */
+
+    loadGroups();
+
+  </script>
 
 </body>
 </html>
