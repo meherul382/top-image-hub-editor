@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Top Image Hub - Admin</title>
+<style>
+:root{--bg:#071018;--card:#0d1721;--line:#243646;--text:#eef5fb;--muted:#9aaaba;--p:#7c5cff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}.wrap{max-width:650px;margin:50px auto;padding:20px}.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}.hidden{display:none!important}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input{width:100%;padding:12px;background:#08121b;border:1px solid var(--line);border-radius:9px;color:white}button{padding:12px 16px;border:0;border-radius:9px;background:var(--p);color:white;font-weight:bold;cursor:pointer}.msg{color:#b9c7d3;font-size:13px;line-height:1.5}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+</style></head><body><div class="wrap">
+<div id="loginBox" class="box"><h1>🔐 Admin Only</h1><p class="msg">এই page public website-এ কোথাও দেখানো হবে না।</p><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field"><label>Password</label><input id="password" type="password"></div><button id="login">Login</button><p id="loginMsg" class="msg"></p></div>
+<div id="panel" class="box hidden"><div class="row"><h1>Admin Upload</h1><button id="logout">Logout</button></div><div class="field"><label>Group/Page Name</label><input id="name"></div><div class="field"><label>Group/Page Link</label><input id="link" placeholder="https://..."></div><div class="field"><label>Top Image</label><input id="image" type="file" accept="image/*"></div><button id="upload">Upload for Everyone</button><p id="msg" class="msg"></p></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL='YOUR_SUPABASE_URL',SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';let sb=null;
+try{if(!SUPABASE_URL.startsWith('YOUR_'))sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
+async function auth(){if(!sb)return;const {data:{session}}=await sb.auth.getSession();loginBox.classList.toggle('hidden',!!session);panel.classList.toggle('hidden',!session)}
+login.onclick=async()=>{if(!sb){loginMsg.textContent='আগে Supabase URL ও Key বসান।';return}const {error}=await sb.auth.signInWithPassword({email:email.value,password:password.value});loginMsg.textContent=error?error.message:'Login successful';if(!error)auth()}
+logout.onclick=async()=>{await sb.auth.signOut();auth()}
+upload.onclick=async()=>{const n=name.value.trim(),l=link.value.trim(),f=image.files[0];if(!n||!l||!f){msg.textContent='সব field পূরণ করুন।';return}msg.textContent='Uploading...';const path=Date.now()+'-'+f.name.replace(/\s+/g,'-');const up=await sb.storage.from('gallery-images').upload(path,f);if(up.error){msg.textContent=up.error.message;return}const {data}=sb.storage.from('gallery-images').getPublicUrl(path);const ins=await sb.from('gallery_items').insert({name:n,page_link:l,image_url:data.publicUrl});msg.textContent=ins.error?ins.error.message:'Uploaded! এখন সবাই website-এ দেখতে পাবে।';if(!ins.error){name.value='';link.value='';image.value=''}}
+auth();
+</script></body></html>

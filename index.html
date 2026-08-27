@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Top Image Hub</title>
+<style>
+:root{--bg:#071018;--card:#0d1721;--line:#243646;--text:#eef5fb;--muted:#9aaaba;--p:#7c5cff}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}header{padding:16px 5%;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;background:#09131c;position:sticky;top:0;z-index:5}.brand{font-weight:900;margin-right:auto}button{padding:10px 14px;border-radius:9px;border:1px solid var(--line);background:#13212e;color:white;cursor:pointer}.primary{background:var(--p);border-color:var(--p)}.page{padding:30px 5%;max-width:1250px;margin:auto}.hidden{display:none!important}.hero{text-align:center;margin:20px auto 30px;max-width:720px}.hero h1{font-size:42px;margin:0}.muted{color:var(--muted);line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;cursor:pointer}.card:hover{border-color:#765cff}.card img,.ph{width:100%;height:180px;object-fit:cover;display:block}.ph{display:grid;place-items:center;background:#172536;font-size:45px}.pad{padding:14px}.card h3{margin:0 0 7px}.card small{color:var(--muted)}.detailImg{width:100%;max-height:520px;object-fit:contain;background:#111;border-radius:14px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.action{text-decoration:none;padding:12px 16px;border-radius:9px;font-weight:bold}.fb{background:#1877f2;color:white}.dl{background:#f1f5f9;color:#111}.edit{background:var(--p);color:white}.about{max-width:800px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px}.link{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:15px;margin:10px 0;background:#101c27;border:1px solid var(--line);border-radius:12px}.link a{color:#b9aaff}.empty{text-align:center;color:var(--muted);padding:60px}@media(max-width:600px){.hero h1{font-size:31px}.link{flex-direction:column;align-items:flex-start}}
+</style></head><body>
+<header><div class="brand">◉ TOP IMAGE HUB</div><button onclick="show('home')">Home</button><button onclick="show('editor')">Editor</button><button onclick="show('about')">About</button></header>
+
+<section id="home" class="page"><div class="hero"><h1>Top Image Library</h1><p class="muted">Admin-এর upload করা Group/Page, ছবি ও link এখানে সবাই দেখতে পারবে। কোনো Login লাগবে না।</p></div><div id="status" class="muted"></div><div id="gallery" class="grid"></div></section>
+
+<section id="detail" class="page hidden"><button onclick="show('home')">← Back</button><br><br><img id="dimg" class="detailImg"><div class="pad"><h1 id="dname"></h1><p id="dtext" class="muted"></p><div class="actions"><a id="dlink" class="action fb" target="_blank" rel="noopener">↗ Open Group / Page</a><button id="download" class="action dl">⇩ Download Image</button><a href="#editor" onclick="show('editor')" class="action edit">✦ Open Editor</a></div></div></section>
+
+<section id="editor" class="page hidden"><div class="hero"><h1>Photo Editor</h1><p class="muted">Editor section এখানে রাখা হয়েছে। তোমার V3 editor code এই section-এ বসিয়ে একই public site-এ ব্যবহার করা যাবে।</p></div></section>
+
+<section id="about" class="page hidden"><div class="about"><h1>About</h1><p class="muted">Top Image Hub-এ public visitors কোনো login ছাড়াই ছবি, Group/Page link ও download option দেখতে পারবে।</p>
+<div class="link"><div><b>Photo Preview Editor</b><br><small class="muted">Reference editor</small></div><a href="https://photo-preview-editor-main-2.vercel.app/photo-editor" target="_blank" rel="noopener">Open ↗</a></div>
+<div class="link"><div><b>Nigeriar Shortlink</b><br><small class="muted">Shortlink website</small></div><a href="https://nigeriar-shortlink-v2.vercel.app/" target="_blank" rel="noopener">Open ↗</a></div>
+</div></section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
+let sb=null,current=null;
+try{if(!SUPABASE_URL.startsWith('YOUR_'))sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
+function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');location.hash=id}
+function esc(x){return String(x||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+async function load(){
+ const g=document.getElementById('gallery'),s=document.getElementById('status');
+ if(!sb){s.textContent='Site setup বাকি: Supabase URL ও Key বসাতে হবে।';return}
+ s.textContent='Loading...';
+ const {data,error}=await sb.from('gallery_items').select('*').order('created_at',{ascending:false});
+ if(error){s.textContent='Error: '+error.message;return}
+ s.textContent=data.length?'সব Group/Page সবার জন্য available।':'এখনো কোনো item নেই।';
+ g.innerHTML=data.length?'': '<div class="empty">এখনো কোনো ছবি upload করা হয়নি।</div>';
+ data.forEach(x=>{const c=document.createElement('article');c.className='card';c.innerHTML=x.image_url?`<img src="${esc(x.image_url)}">`:'<div class="ph">🖼️</div>';c.innerHTML+=`<div class="pad"><h3>${esc(x.name)}</h3><small>Click to open</small></div>`;c.onclick=()=>openItem(x);g.appendChild(c)})
+}
+function openItem(x){current=x;dimg.src=x.image_url||'';dname.textContent=x.name;dtext.textContent='ছবি download করুন অথবা Group/Page link-এ যান।';dlink.href=x.page_link;show('detail')}
+download.onclick=()=>{if(!current?.image_url)return;const a=document.createElement('a');a.href=current.image_url;a.download=(current.name||'image')+'.jpg';a.click()}
+if(location.hash==='#about')show('about'); else if(location.hash==='#editor')show('editor'); else show('home');load();
+</script></body></html>
